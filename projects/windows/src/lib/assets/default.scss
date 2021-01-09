@@ -1,72 +1,3 @@
-# @cardboard-box/windows
-Brings windows-application like layout and design to angular applications!
-
-## Features:
-* Resizable & Movable windows
-* Task bar for fixing the position and size of windows
-* Custom title-bars and body content for windows
-* Customizable icons, window layouts and more!
-
-## Usage
-Install the library from npm: `npm install @cardboard-box/windows`
-
-Include the module in your AppModule:
-```TypeScript
-...
-import { CardboardBoxWindowsModule } from '@cardboard-box/windows';
-...
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    CardboardBoxWindowsModule, //<--- This
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-```
-
-Setup your windows in your component
-```HTML
-<div class="some-container"> <!-- This container tells the box-container how big your desktop space should be-->
-    <box-container>
-        <box-window>
-            <div *title>Hello World</div> <!--This the title of the window-->
-            <div *body> <!-- This is the body content of the window -->
-                <h1>How are you?</h1>
-            </div>
-        </box-window>
-        <box-window>
-            <div *title>Other window!</div>
-            <div *body>
-                <h1>This is cool!</h1>
-            </div>
-        </box-window>
-    </box-container>
-</div>
-```
-
-Ensure the container has the correct sizing with a little bit of css!:
-```css
-.some-container {
-    position: fixed; /*Needs to be relative, fixed, or absolute for the styling to work correctly*/
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    overflow: hidden;
-}
-```
-
-Theme your windows however you want! Here are some default styles (these can go in your styles.scss file!):
-```scss
 $window-border: rgb(41, 130, 204);
 
 //Everything is contained within this "window-container" class
@@ -151,6 +82,3 @@ $window-border: rgb(41, 130, 204);
         }
     }
 }
-```
-
-Run your application and see the magic!

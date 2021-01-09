@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/windows",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  },
+  "assets": [
+      "src/lib/assets/default.scss"
+  ]
+}

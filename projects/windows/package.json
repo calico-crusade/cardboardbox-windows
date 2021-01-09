@@ -1,0 +1,22 @@
+{
+    "name": "@cardboard-box/windows",
+    "version": "0.0.4",
+    "description": "Providers a windows-application type feel in angular!",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/calico-crusade/cardboardbox-windows.git"
+    },
+    "keywords": [
+        "angular",
+        "windows",
+        "forms"
+    ],
+    "license": "MIT",
+    "peerDependencies": {
+        "@angular/common": "^10.1.6",
+        "@angular/core": "^10.1.6"
+    },
+    "dependencies": {
+        "tslib": "^2.0.0"
+    }
+}

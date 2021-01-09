@@ -1,0 +1,13 @@
+<div class="window-container">
+    <div class="window-background" #background>
+        <ng-content></ng-content>
+    </div>
+    <div class="task-bar">
+        <button class="window-item" 
+                [class]="{ 'active': window.active }"
+                *ngFor="let window of windows" 
+                (click)="moveToFront(window, true)">
+            <ng-template [ngTemplateOutlet]="window.title.template"></ng-template>
+        </button>
+    </div>
+</div>

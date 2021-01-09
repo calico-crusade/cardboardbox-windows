@@ -1,0 +1,61 @@
+.window-container {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    overflow: hidden;
+    min-width: 50px;
+    min-height: 50px;
+    width: 100%;
+    height: 100%;
+
+    .window-title {
+        display: flex;
+        flex-flow: row;
+
+        .title-text {
+            flex: 1;
+            cursor: grabbing;
+        }
+
+        .title-buttons {
+            button {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .window-body {
+        flex: 1;
+        max-height: 100%;
+        overflow: auto;
+    }
+
+    .grabber {
+        position: absolute;
+        &.right {
+            top: 0;
+            right: 0;
+    
+            width: 5px;
+            height: calc(100% - 5px);
+            cursor: e-resize;
+        }
+
+        &.bottom {
+            bottom: 0;
+            left: 0;
+            width: calc(100% - 5px);
+            height: 5px;
+            cursor: s-resize;
+        }
+
+        &.corner {
+            bottom: 0;
+            right: 0;
+    
+            width: 5px;
+            height: 5px;
+            cursor: se-resize;
+        }
+    }
+}

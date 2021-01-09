@@ -1,0 +1,20 @@
+<div class="window-container">
+    <div class="window-title">
+        <div class="title-text">
+            <ng-template [ngTemplateOutlet]="title.template"></ng-template>
+        </div>
+        <div class="title-buttons">
+            <button class="minimize" (click)="onMinimized.emit()"></button>
+            <button class="maximize" (click)="onMaximized.emit()" *ngIf="state != 'maximized'"></button>
+            <button class="restore" (click)="onRestored.emit()" *ngIf="state == 'maximized'"></button>
+            <button class="close" (click)="onClosed.emit()"></button>
+        </div>
+    </div>
+    <div class="window-body">
+        <ng-template [ngTemplateOutlet]="body.template"></ng-template>
+    </div>
+
+    <div class="grabber right"></div>
+    <div class="grabber bottom"></div>
+    <div class="grabber corner"></div>
+</div>
