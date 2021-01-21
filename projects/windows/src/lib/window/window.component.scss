@@ -1,3 +1,6 @@
+$caret-size: 5px;
+$double-caret-size: $caret-size * 2;
+
 .window-container {
     position: relative;
     display: flex;
@@ -26,36 +29,84 @@
 
     .window-body {
         flex: 1;
+        max-width: 100%;
         max-height: 100%;
-        overflow: auto;
+        overflow: hidden;
+
+        .ng-star-inserted {
+            max-width: 100%;
+            max-height: 100%;
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+        }
     }
 
     .grabber {
         position: absolute;
-        &.right {
+        &.top {
             top: 0;
+            left: $caret-size;
+            width: calc(100% - #{$double-caret-size});
+            height: $caret-size;
+        }
+
+        &.right {
+            top: $caret-size;
             right: 0;
     
-            width: 5px;
-            height: calc(100% - 5px);
+            width: $caret-size;
+            height: calc(100% - #{$double-caret-size});
             cursor: e-resize;
+        }
+
+        &.left {
+            top: $caret-size;
+            left: 0;
+            width: $caret-size;
+            height: calc(100% - #{$double-caret-size});
+            cursor: w-resize;
         }
 
         &.bottom {
             bottom: 0;
-            left: 0;
-            width: calc(100% - 5px);
-            height: 5px;
+            left: $caret-size;
+            width: calc(100% - #{$double-caret-size});
+            height: $caret-size;
             cursor: s-resize;
         }
 
-        &.corner {
+        &.bottom-right-corner {
             bottom: 0;
             right: 0;
-    
-            width: 5px;
-            height: 5px;
+            width: $caret-size;
+            height: $caret-size;
             cursor: se-resize;
+        }
+
+        &.top-right-corner {
+            top: 0;
+            right: 0;
+            width: $caret-size;
+            height: $caret-size;
+            cursor: ne-resize;
+        }
+
+        &.bottom-left-corner {
+            bottom: 0;
+            left: 0;
+            width: $caret-size;
+            height: $caret-size;
+            cursor: sw-resize;
+        }
+
+        &.top-left-corner {
+            top: 0;
+            left: 0;
+            width: $caret-size;
+            height: $caret-size;
+            cursor: nw-resize;
         }
     }
 }
