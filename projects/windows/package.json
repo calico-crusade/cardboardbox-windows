@@ -1,6 +1,6 @@
 {
     "name": "@cardboard-box/windows",
-    "version": "0.0.5",
+    "version": "0.0.9",
     "description": "Providers a windows-application type feel in angular!",
     "repository": {
         "type": "git",

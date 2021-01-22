@@ -1,4 +1,4 @@
-import { Component, ContentChildren, QueryList, Renderer2, ViewChild, ElementRef } from '@angular/core';
+import { Component, ContentChildren, QueryList, Renderer2, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { WindowComponent } from './../window/window.component';
 
 @Component({
@@ -6,7 +6,7 @@ import { WindowComponent } from './../window/window.component';
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.scss']
 })
-export class ContainerComponent {
+export class ContainerComponent implements OnDestroy {
 
     @ContentChildren(WindowComponent) windows: QueryList<WindowComponent>;
     @ViewChild('background') background: ElementRef;
@@ -30,6 +30,15 @@ export class ContainerComponent {
         private renderer: Renderer2,
         private element: ElementRef
     ) { }
+
+    ngOnDestroy(): void {
+        this.mouseUpRelief();
+    }
+
+    mouseUpRelief(evt: any = null) {
+        this.stopDrag(null, null, null);
+        return null;
+    }
 
     getStyle(style: string, el: ElementRef = this.element) {
         return document.defaultView.getComputedStyle(el.nativeElement).getPropertyValue(style);
@@ -169,12 +178,17 @@ export class ContainerComponent {
         window.positions[3] = e.clientY;
 
         this.mouseMove = (e) => this.doMoveDrag(e, el, window);
-        this.mouseMoveUp = (e) => this.stopMoveDrag(e, el, window);
+        this.mouseMoveUp = (e) => this.stopDrag(e, el, window);
         document.documentElement.addEventListener('mousemove', this.mouseMove, false);
         document.documentElement.addEventListener('mouseup', this.mouseMoveUp, false);
     }
 
     doMoveDrag(e: any, el: any, window: WindowComponent) {
+
+        if (e.buttons == 0) {
+            this.stopDrag(e, el, window);
+            return;
+        }
 
         window.positions[0] = window.positions[2] - e.clientX;
         window.positions[1] = window.positions[3] - e.clientY;
@@ -185,11 +199,6 @@ export class ContainerComponent {
         this.renderer.setStyle(el, 'left', (el.offsetLeft  - window.positions[0]) + 'px');
     }
 
-    stopMoveDrag(e: any, el: any, window: WindowComponent) {
-        document.documentElement.removeEventListener('mousemove', this.mouseMove, false);
-        document.documentElement.removeEventListener('mouseup', this.mouseMoveUp, false);
-    }
-
     //END - MOVING
 
     //START - RESIZING
@@ -198,37 +207,58 @@ export class ContainerComponent {
             if (!child.classList.contains('grabber'))
                 continue;
             
-            child.addEventListener('mousedown', (e) => this.initResizeDrag(e, el, window), false);
+            const isLeft = child.classList.contains('left') ||
+                           child.classList.contains('bottom-left-corner');
+
+            child.addEventListener('mousedown', (e) => this.initResizeDrag(e, el, window, isLeft), false);
         }
     }
 
-    initResizeDrag(e: any, el: any, window: WindowComponent) {
+    initResizeDrag(e: any, el: any, window: WindowComponent, isLeft: boolean) {
         window.startX = e.clientX + 'px';
         window.startY = e.clientY + 'px';
         window.startWidth = parseInt(document.defaultView.getComputedStyle(el).width, 10) + 'px';
         window.startHeight = parseInt(document.defaultView.getComputedStyle(el).height, 10) + 'px';
 
-        this.mouseMove = (e) => this.doResizeDrag(e, el, window);
-        this.mouseMoveUp = (e) => this.stopResizeDrag(e, el, window);
+        this.mouseMove = (e) => this.doResizeDrag(e, el, window, isLeft)
+        this.mouseMoveUp = (e) => this.stopDrag(e, el, window);
         document.documentElement.addEventListener('mousemove', this.mouseMove, false);
         document.documentElement.addEventListener('mouseup', this.mouseMoveUp, false);
     }
 
-    doResizeDrag(e: any, el: any, window: WindowComponent) {
+    doResizeDrag(e: any, el: any, window: WindowComponent, isLeft: boolean) {
+
+        if (e.buttons == 0) {
+            this.stopDrag(e, el, window);
+            return;
+        }
 
         const width = parseInt(window.startWidth, 10);
         const height = parseInt(window.startHeight, 10);
         const x = parseInt(window.startX, 10);
         const y = parseInt(window.startY);
 
-        this.renderer.setStyle(el, 'width', (width + e.clientX - x) + 'px');
-        this.renderer.setStyle(el, 'height', (height + e.clientY - y) + 'px');
-        
-    }
 
-    stopResizeDrag(e: any, el: any, window: WindowComponent) {
-        document.documentElement.removeEventListener('mousemove', this.mouseMove, false);
-        document.documentElement.removeEventListener('mouseup', this.mouseMoveUp, false);
+        if (isLeft && e.clientX < x) {
+            const newWidth = (x - e.clientX) + width;
+            this.renderer.setStyle(el, 'left', e.clientX + 'px');
+            this.renderer.setStyle(el, 'width', newWidth + 'px');
+        } else {
+            this.renderer.setStyle(el, 'width', (width + e.clientX - x) + 'px');
+        }
+
+        this.renderer.setStyle(el, 'height', (height + e.clientY - y) + 'px');
     }
     //END - RESIZING
+
+    stopDrag(e: any, el: any, window: WindowComponent) {
+        if (!this.mouseMove && !this.mouseMoveUp)
+            return;
+
+        document.documentElement.removeEventListener('mousemove', this.mouseMove, false);
+        document.documentElement.removeEventListener('mouseup', this.mouseMoveUp, false);
+
+        this.mouseMove = undefined;
+        this.mouseMoveUp = undefined;
+    }
 }
