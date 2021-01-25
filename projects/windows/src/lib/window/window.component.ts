@@ -14,8 +14,8 @@ export class WindowComponent implements OnInit {
     @Output('restored') onRestored = new EventEmitter();
     @Output('closed') onClosed = new EventEmitter();
 
-    @ContentChild(WindowTitleComponent) title: WindowTitleComponent;
-    @ContentChild(WindowBodyComponent) body: WindowBodyComponent;
+    @ContentChild(WindowTitleComponent) boxtitle: WindowTitleComponent;
+    @ContentChild(WindowBodyComponent) boxbody: WindowBodyComponent;
 
     @Input() startX: string = undefined;
     @Input() startY: string = undefined;

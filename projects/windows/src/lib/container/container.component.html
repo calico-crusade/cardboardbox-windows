@@ -7,7 +7,7 @@
                 [class]="{ 'active': window.active }"
                 *ngFor="let window of windows" 
                 (click)="moveToFront(window, true)">
-            <ng-template [ngTemplateOutlet]="window.title.template"></ng-template>
+            <ng-template [ngTemplateOutlet]="window.boxtitle.template"></ng-template>
         </button>
     </div>
 </div>

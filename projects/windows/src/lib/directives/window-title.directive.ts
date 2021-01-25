@@ -1,7 +1,7 @@
 import { Directive, TemplateRef } from '@angular/core';
 
 @Directive({
-  selector: '[title]'
+  selector: '[boxtitle]'
 })
 export class WindowTitleComponent { 
     constructor(public template: TemplateRef<any>) {}

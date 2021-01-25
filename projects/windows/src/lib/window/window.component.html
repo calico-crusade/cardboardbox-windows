@@ -1,7 +1,7 @@
 <div class="window-container">
     <div class="window-title">
         <div class="title-text">
-            <ng-template [ngTemplateOutlet]="title.template"></ng-template>
+            <ng-template [ngTemplateOutlet]="boxtitle.template"></ng-template>
         </div>
         <div class="title-buttons">
             <button class="minimize" (click)="onMinimized.emit()"></button>
@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="window-body">
-        <ng-template [ngTemplateOutlet]="body.template"></ng-template>
+        <ng-template [ngTemplateOutlet]="boxbody.template"></ng-template>
     </div>
 
     <div class="grabber right"></div>
